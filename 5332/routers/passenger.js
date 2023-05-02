@@ -3,18 +3,7 @@ const router = express.Router();
 const sql = require('mssql');
 
 // Database configuration
-var dbConfig = {
-  user: 'admin',
-  password: 'JEehamQf8trOZS5xaEnx',
-  server: 'database-project-2023.c47efrinlj0k.us-east-2.rds.amazonaws.com',
-  database: 'Spring2023',
-  port: 1433,
-  options: {
-    encrypt: true,
-    trustServerCertificate: true,
-    integratedSecurity: false
-  },
-};
+const dbConfig = require('../config/db');
 
 router.get('/', (req, res) => {
   // Connect to the database
@@ -45,7 +34,7 @@ router.get('/', (req, res) => {
         tableData += `${record.last_name.padEnd(11)}| `;
         tableData += `${record.date_of_birth.toISOString().substring(0, 10)}\n`;
       });
-
+      sql.close();
       // Send the table data as plain text
       res.setHeader('Content-Type', 'text/plain');
       res.send(tableData);

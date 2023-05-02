@@ -11,18 +11,7 @@ const sql = require('mssql');
 
 
 // Database configuration
-var dbConfig = {
-  user: 'admin',
-  password: 'JEehamQf8trOZS5xaEnx',
-  server: 'database-project-2023.c47efrinlj0k.us-east-2.rds.amazonaws.com',
-  database: 'Spring2023',
-  port: 1433,
-  options: {
-    encrypt: true,
-    trustServerCertificate: true,
-    integratedSecurity: false
-  },
-};
+const dbConfig = require('../config/db');
 
 function formatDate(date) {
   const yyyy = date.getFullYear();
@@ -143,7 +132,7 @@ router.post('/', async (req, res) => {
       </tr>`;
     });
     html += '</table>';
-
+    sql.close();
     // Send the HTML table as the response
     res.status(200).send(html);
 

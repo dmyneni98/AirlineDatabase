@@ -16,18 +16,7 @@ const sql = require('mssql');
 
 
 // Database configuration
-var dbConfig = {
-  user: 'admin',
-  password: 'JEehamQf8trOZS5xaEnx',
-  server: 'database-project-2023.c47efrinlj0k.us-east-2.rds.amazonaws.com',
-  database: 'Spring2023',
-  port: 1433,
-  options: {
-    encrypt: true,
-    trustServerCertificate: true,
-    integratedSecurity: false
-  },
-};
+const dbConfig = require('../config/db');
 
 router.get('/getConfirmationNumber', (req, res) => {
 
@@ -79,7 +68,7 @@ router.get('/getConfirmationNumber', (req, res) => {
         html += `<tr><td>${record.confirmation_number}</td><td>${record.first_name}</td><td>${record.last_name}</td></tr>`;
       });
       html += '</table>';
-
+      sql.close();
       res.send(html);
 
     });
@@ -227,7 +216,7 @@ passengers.forEach(({ membership_id, first_name, last_name, payment_status, poin
   </tr>`;
 });
 html += '</table>';
-
+sql.close();
 // Send the HTML table as the response
 res.status(200).send(html);
 

@@ -3,18 +3,7 @@ const router = express.Router();
 const sql = require('mssql');
 
 // Database configuration
-var dbConfig = {
-  user: 'admin',
-  password: 'JEehamQf8trOZS5xaEnx',
-  server: 'database-project-2023.c47efrinlj0k.us-east-2.rds.amazonaws.com',
-  database: 'Spring2023',
-  port: 1433,
-  options: {
-    encrypt: true,
-    trustServerCertificate: true,
-    integratedSecurity: false
-  },
-};
+const dbConfig = require('../config/db');
 
 // Route to display all flights
 router.get('/', (req, res) => {
@@ -48,7 +37,7 @@ router.get('/', (req, res) => {
         tableData += `${flight.num_of_passengers.toString().padEnd(21)}| `;
         tableData += `${flight.price.toFixed(2)}\n`;
       });
-
+      sql.close();
       // Send the table data as plain text
       res.setHeader('Content-Type', 'text/plain');
       res.send(tableData);
@@ -82,6 +71,7 @@ router.post('/', (req, res) => {
         res.status(500).send({ error: 'Error adding new flight' });
         return;
       }
+      sql.close();
       res.send({ message: 'Flight added successfully', rowsAffected: result.rowsAffected });
     });
   });
@@ -107,7 +97,7 @@ router.delete('/', (req, res) => {
         res.status(500).send({ error: 'Error deleting flight' });
         return;
       }
-
+      sql.close();
       res.send({ message: 'Flight deleted successfully', rowsAffected: result.rowsAffected });
     });
 });
@@ -163,7 +153,7 @@ router.put('/:flight_number', (req, res) => {
       res.status(500).send({ error: 'Error updating flight information' });
       return;
     }
-
+    sql.close();
     res.send({ message: 'Flight information updated successfully', rowsAffected: result.rowsAffected });
     });
   });
