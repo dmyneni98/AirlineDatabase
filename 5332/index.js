@@ -7,8 +7,8 @@ const cancelBookingRoutes = require('./routers/cancel_booking');
 const checkinRoutes = require('./routers/checkin');
 const flighteventRoutes = require('./routers/flightevent');
 const customerRoutes = require('./routers/customer');
-
-
+const passengerCountRoutes = require('./routers/passenger_count');
+const passengerCheckinStatus = require('./routers/passenger_checkinStatus');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -33,7 +33,8 @@ app.use('/cancleBooking', cancelBookingRoutes);
 app.use('/checkin', checkinRoutes);
 app.use('/flightevent', flighteventRoutes);
 app.use('/customer', customerRoutes);
-
+app.use('/flightBookingStatus',passengerCountRoutes);
+app.use('/passengerCheckinStatus',passengerCheckinStatus);
 
 app.listen(3000, function () {
   console.log("Server started on port 3000");
